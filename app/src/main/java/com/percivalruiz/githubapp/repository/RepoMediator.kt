@@ -25,7 +25,9 @@ import java.io.IOException
 @ExperimentalPagingApi
 class RepoMediator(
   private val db: AppDatabase,
-  private val service: GitHubService
+  private val service: GitHubService,
+  private val query: String,
+  private val sort: String
 ) : RemoteMediator<Int, Repo>() {
 
   private val repoDAO = db.repoDAO()
@@ -45,7 +47,11 @@ class RepoMediator(
 
       // Call search endpoint
       val response =
-        service.searchRepositories(query = "android", page = page ?: Constants.GITHUB_INITIAL_PAGE)
+        service.searchRepositories(
+          query = query,
+          page = page ?: Constants.GITHUB_INITIAL_PAGE,
+          sort = sort
+        )
 
       db.withTransaction {
         // Remove Repo data and RemoteKey data saved in db cache when refresh is being called

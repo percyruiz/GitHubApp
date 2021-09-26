@@ -1,8 +1,11 @@
 package com.percivalruiz.githubapp.di
 
+import android.content.Context
 import android.util.Log
 import androidx.room.Room
 import com.percivalruiz.githubapp.api.GitHubService
+import com.percivalruiz.githubapp.data.SearchQueryPrefs
+import com.percivalruiz.githubapp.data.SearchQueryPrefsImpl
 import com.percivalruiz.githubapp.db.AppDatabase
 import com.percivalruiz.githubapp.repository.SearchRepository
 import com.percivalruiz.githubapp.repository.SearchRepositoryImpl
@@ -22,7 +25,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
  */
 val appModule = module {
 
-  // -- Networking --
+  /** start Networking */
 
   single {
     Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
@@ -43,7 +46,17 @@ val appModule = module {
     retrofit.create(GitHubService::class.java)
   }
 
-  // -- Database --
+  /** end Networking */
+
+  /** start Persistence */
+
+  single {
+    androidApplication().getSharedPreferences("com.percivalruiz.githubapp", Context.MODE_PRIVATE)
+  }
+
+  single<SearchQueryPrefs> {
+    SearchQueryPrefsImpl(prefs = get())
+  }
 
   single {
     Room.databaseBuilder(
@@ -52,11 +65,17 @@ val appModule = module {
     ).build()
   }
 
-  // -- Repository --
+  /** end Persistence */
 
-  single<SearchRepository> { SearchRepositoryImpl(db = get(), service = get()) }
+  /** start Repository */
 
-  // -- ViewModel --
+  single<SearchRepository> { SearchRepositoryImpl(db = get(), service = get(), prefs = get()) }
+
+  /** end Repository */
+
+  /** start ViewModel */
 
   viewModel { MainActivityViewModel(repository = get(), handle = get()) }
+
+  /** end ViewModel */
 }
