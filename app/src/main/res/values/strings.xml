@@ -1,4 +1,7 @@
 <resources>
   <string name="app_name">GitHubApp</string>
   <string name="retry">Retry</string>
+  <string name="search_label">Search</string>
+  <string name="star_sort_label">Stars</string>
+  <string name="fork_sort_label">Forks</string>
 </resources>
