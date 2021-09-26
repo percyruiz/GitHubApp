@@ -62,7 +62,7 @@ class MainActivityViewModel(
   }
 
   companion object {
-    const val QUERY = "com.percivalruiz.githubapp.QUERY"
+    private const val QUERY = "com.percivalruiz.githubapp.QUERY"
     const val DEFAULT_QUERY = "kotlin"
     const val DEFAULT_SORT = "stars"
   }
