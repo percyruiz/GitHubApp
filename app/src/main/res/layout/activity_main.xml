@@ -40,7 +40,7 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/search_input_layout"
       >
-    <AutoCompleteTextView
+    <com.percivalruiz.githubapp.ui.custom.NonFilterableAutoCompleteTextView
         android:drawableStart="@drawable/ic_sort"
         android:id="@+id/sort_auto_complete"
         android:layout_width="match_parent"
